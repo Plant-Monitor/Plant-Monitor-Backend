@@ -1,0 +1,163 @@
+openapi: '3.0.2'
+info:
+  title: snapshots
+  version: '1.0'
+paths:
+  /snapshots:
+    get:
+      description: 'Returns the most recent plant snapshot'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+    post:
+      description: 'Stores an snapshot'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Snapshot'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /actions-needed:
+    get:
+      description: 'Get the most frequent action needed'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionNeeded'
+    post:
+      description: 'Forward an action request to the user'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionNeeded'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /actions-taken:
+    get:
+      description: 'Get the most frequent action taken by PC'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionTaken'
+    post:
+      description: 'Notify user of an action taken by PC'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionTaken'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /batch-snapshots:
+    get:
+      description: 'Returns the most recent snapshots in a batch of specified size'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'
+    post:
+      description: 'Stores an snapshot'
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'
+      parameters: []
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Snapshot:
+      type: object
+      properties:
+        raw:
+          $ref: '#/components/schemas/SnapshotRaw'
+        comprehensive:
+          $ref: "#/components/schemas/SnapshotComprehensive"
+        actions_taken:
+          description: 'Any actions that were taken by PC'
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionTaken'
+        actions_needed:
+          description: 'Any actions that need to be taken by user'
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionNeeded'
+    SnapshotRaw:
+      description: 'Raw readings snapshot'
+      type: object
+      properties:
+        moisture:
+          type: number
+          format: float
+        light:
+          type: number
+          format: float
+        tank_level:
+          type: number
+          format: float
+    SnapshotComprehensive:
+      description: 'User-friendly interpretation of raw snapshot'
+      type: object
+      properties:
+        moisture:
+          type: string
+        light:
+          type: string
+        tank_level:
+          type: string
+    ActionTaken:
+      type: object
+      properties:
+        metric:
+          type: string
+        cause_level:
+          type: string
+        regulated_level:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    ActionNeeded:
+      type: object
+      properties:
+        metric:
+          type: string
+        cause_level:
+          type: string
+        needed_level:
+          type: string
+        method_suggested:
+          type: string
