@@ -1,14 +1,19 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateSnapshotDto } from './dto/create-snapshot.dto';
+import { Snapshot } from './interfaces/snapshot.interface';
+import { SnapshotsService } from './snapshots.service';
 
 @Controller('snapshots')
 export class SnapshotsController {
-    @Get()
-    find(): string {
-        return 'stub';
-    }
+  constructor(private snapshotsService: SnapshotsService) {}
 
-    @Post()
-    create(): void {
-        return;
-    }
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Snapshot> {
+    return this.snapshotsService.findOne(id);
+  }
+
+  @Post()
+  async create(@Body() createSnapshotDto: CreateSnapshotDto) {
+    this.snapshotsService.create(createSnapshotDto);
+  }
 }
