@@ -14,7 +14,7 @@ export class SnapshotsService {
     private readonly snapshotModel: Model<SnapshotDocument>,
   ) {}
 
-  async findOne(id: string): Promise<SnapshotDocObject> {
+  async findOne(id: string): Promise<SnapshotDocObject | null>{
     return this.snapshotModel.findOne({
       user_id: id,
     }).sort({

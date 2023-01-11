@@ -8,7 +8,7 @@ export class SnapshotsController {
   constructor(private snapshotsService: SnapshotsService) {}
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Snapshot> {
+  async findOne(@Param('id') id: string): Promise<Snapshot | null> {
     return this.snapshotsService.findOne(id);
   }
 
