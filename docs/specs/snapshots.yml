@@ -101,6 +101,9 @@ components:
     Snapshot:
       type: object
       properties:
+        timestamp:
+          description: The timestamp at which the snapshot was captured. The chosen format is YYYY-MM-DDThh:mmTZD (eg 1997-07-16T19:20+01:00).
+          type: string
         raw:
           $ref: '#/components/schemas/SnapshotRaw'
         comprehensive:
