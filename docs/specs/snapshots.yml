@@ -6,7 +6,13 @@ paths:
   /snapshots:
     get:
       description: 'Returns the most recent plant snapshot'
-      parameters: []
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: OK
@@ -21,32 +27,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Snapshot'
-      parameters: []
-      responses:
-        '200':
-          description: OK
-  /batch-snapshots:
-    get:
-      description: 'Returns the most recent snapshots in a batch of specified size'
-      parameters: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Snapshot'
-    post:
-      description: 'Stores an snapshot'
-      requestBody:
-        content:
-          application/json:
-            schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Snapshot'
       parameters: []
       responses:
         '200':

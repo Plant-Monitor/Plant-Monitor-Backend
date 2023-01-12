@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSnapshotDto } from './dto/create-snapshot.dto';
@@ -10,7 +11,10 @@ import {
 @Injectable()
 export class SnapshotsService {
   constructor(
-    @InjectModel(SnapshotDocObject.name)
+    @InjectModel(
+        SnapshotDocObject.name,
+        process.env.NODE_ENV
+    )
     private readonly snapshotModel: Model<SnapshotDocument>,
   ) {}
 
