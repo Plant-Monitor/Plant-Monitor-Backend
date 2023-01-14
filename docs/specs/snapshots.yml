@@ -57,18 +57,18 @@ components:
         $ref: '#/components/schemas/HealthProperty'
 
     HealthProperty:
-      description: The health property of a plant
+      description: The health property of a plant. Formatted as a map with the metric as a key
       type: object
-      properties:
-        metric:
-          type: string
-        level:
-          type: number
-          format: float
-        unit:
-          type: string
-        interpretation:
-          $ref: '#/components/schemas/Interpretation'
+      additionalProperties:
+        type: object
+        properties:
+          level:
+            type: number
+            format: float
+          unit:
+            type: string
+          interpretation:
+            $ref: '#/components/schemas/Interpretation'
 
     Interpretation:
       description: PC's interpretation of the given healthProperty
