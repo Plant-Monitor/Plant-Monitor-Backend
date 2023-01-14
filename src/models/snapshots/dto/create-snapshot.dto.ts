@@ -4,5 +4,5 @@ export class CreateSnapshotDto implements Snapshot {
   user_id: string;
   plant_id: string;
   timestamp: Date;
-  health_properties: HealthProperty[];
+  health_properties: Map<string, HealthProperty>;
 }

@@ -2,11 +2,10 @@ export interface Snapshot {
   user_id: string;
   plant_id: string;
   timestamp: Date;
-  health_properties: HealthProperty[];
+  health_properties: Map<string, HealthProperty>; //key is the metric
 }
 
 export interface HealthProperty {
-  metric: string;
   level: number;
   unit: string;
   interpretation: Interpretation;

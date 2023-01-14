@@ -16,7 +16,7 @@ export class SnapshotDocObject implements Snapshot {
   timestamp: Date;
 
   @Prop()
-  health_properties: HealthProperty[];
+  health_properties: Map<string, HealthProperty>;
 }
 
 export const SnapshotSchema = SchemaFactory.createForClass(SnapshotDocObject);
