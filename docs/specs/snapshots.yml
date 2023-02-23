@@ -38,15 +38,12 @@ components:
       type: object
       properties:
         user_id:
-          type: string
-          format: uuid
+          $ref: '#/components/schemas/Id'
         plant_id:
-          type: string
-          format: uuid
+          $ref: '#/components/schemas/Id'
         timestamp:
           description: The timestamp at which the snapshot was captured.
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/Timestamp'
         health_properties:
           $ref: '#/components/schemas/HealthProperties'
 
@@ -72,3 +69,11 @@ components:
       description: PC's interpretation of the given healthProperty
       type: string
       enum: [GOOD, OKAY, CRITICAL]
+
+    Id:
+      type: string
+      format: uuid
+
+    Timestamp: 
+      type: string
+      format: date-time

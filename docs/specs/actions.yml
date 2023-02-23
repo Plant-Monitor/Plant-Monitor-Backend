@@ -1,0 +1,67 @@
+openapi: '3.0.2'
+info:
+  title: actions
+  description: 'API permitting PCS to write and update actions that have been taken or are needed. The Mobile app may also fetch unresolved and recently resolved actions.'
+  version: '1.0'
+
+paths:
+  /actions/create:
+    post:
+      description: 'PCS creates an action (taken or needed) which is stored in DB and forwarded to user via mobile push notification'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+      responses:
+        '200':
+          description: OK
+  /actions/resolve:
+    put:
+      description: 'PCS updates action by marking it as resolved.'
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                action_id:
+                  $ref: '#/components/schemas/Action/properties/action_id'
+                timestamp:
+                  description: 'Time at which the action was resolved'
+                message:
+                  $ref: '#/components/schemas/Action/properties/message'
+                current_snapshot:
+                  $ref: 'snapshots.yml#/components/schemas/Snapshot'
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Action:
+      type: object
+      properties:
+        action_id:
+          $ref: 'snapshots.yml#/components/schemas/Id'
+        timestamp:
+          description: 'Time at which the action was created'
+          $ref: 'snapshots.yml#/components/schemas/Timestamp'
+        action_type:
+          description: Is the action taken autonomously or needed by user
+          type: string
+          enum: [TAKEN, NEEDED]
+        status:
+          description: Indicates whether the action has been resolved or not.
+          type: string
+          enum: [RESOLVED, UNRESOLVED]
+        metric:
+          type: string
+        message:
+          description: 'Message to be displayed on the push notification banner'
+          type: string
+        level_needed:
+          $ref: 'snapshots.yml#/components/schemas/HealthProperty/properties/level'
+        current_snapshot:
+          $ref: 'snapshots.yml#/components/schemas/Snapshot'
+        
