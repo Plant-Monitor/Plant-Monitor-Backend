@@ -1,4 +1,4 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 import { Snapshot } from "src/models/snapshots/interfaces/snapshot.interface";
 import { Action, ActionStatus, ActionType } from "../interaces/action.interface";
@@ -24,3 +24,5 @@ export class ActionDocObject implements Action {
     @Prop()
     current_snapshot: Snapshot;
 }
+
+export const ActionSchema = SchemaFactory.createForClass(ActionDocObject);
