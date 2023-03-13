@@ -7,7 +7,7 @@ export interface Action {
     status: ActionStatus;
     metric: string;
     message: string;
-    level: number;
+    level_needed: number;
     current_snapshot: Snapshot;
 };
 

@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configuration } from './config/configuration';
 import mongoConfig from './config/database/mongo/mongo.config';
+import { ActionsModule } from './models/actions/actions.module';
+import { PushModule } from './models/push/push.module';
 import { SnapshotsModule } from './models/snapshots/snapshots.module';
 
 @Module({
@@ -14,6 +16,8 @@ import { SnapshotsModule } from './models/snapshots/snapshots.module';
       load: [configuration, mongoConfig]
     }),
     SnapshotsModule,
+    ActionsModule,
+    PushModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

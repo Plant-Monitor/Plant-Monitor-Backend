@@ -24,11 +24,16 @@ import { getModelToken } from '@nestjs/mongoose';
 import { ObjectId } from 'mongodb';
 import { ActionsController } from './actions.controller';
 import { ActionsService } from './actions.service';
-import { Action } from './interfaces/action.interface';
+import { v4 as uuidv4 } from 'uuid';
+import { Action, ActionStatus, ActionType } from './interfaces/action.interface';
+import { HealthProperty, Interpretation } from '../snapshots/interfaces/snapshot.interface';
+import { ResolveActionDto} from './dto/resolveAction.dto'
+import { ExpoPushToken } from 'expo-server-sdk';
 
 describe('ActionsController', () => {
   let controller: ActionsController;
   let service: ActionsService;
+  let expoToken: ExpoPushToken = 'ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -52,73 +57,132 @@ describe('ActionsController', () => {
 
   describe('createAction', () => {
     it('should create a new action and return the created action', async () => {
+      
+
       const createdAction: Action = {
-        _id: new ObjectId(),
-        issued_timestamp: new Date(),
-        action_type: 'TAKEN',
-        status: 'UNRESOLVED',
-        metric: 'water',
-        message: 'Watered plant',
+        action_id: uuidv4(),
+        timestamp: new Date(),
+        action_type: ActionType.TAKEN,
+        status: ActionStatus.UNRESOLVED,
+        metric: 'moisture',
+        message: 'Watering plant',
         level_needed: 0.5,
         current_snapshot: {
-          _id: new ObjectId(),
+          user_id: uuidv4(),
+          plant_id: uuidv4(),
           timestamp: new Date(),
-          moisture: 0.7,
-          light: 0.8,
-          temperature: 25,
-        },
+          health_properties: new Map<string, HealthProperty>([
+              ['moisture', {
+                  level: 0.3,
+                  unit: 'deg C',
+                  interpretation: Interpretation.CRITICAL,
+              }],
+              ['light', {
+                level: 3,
+                unit: 'lumens',
+                interpretation: Interpretation.OKAY,
+              }],
+              ['temperature', {
+                level: 20,
+                unit: 'deg C',
+                interpretation: Interpretation.OKAY,
+              }],
+            ])
+        }
       };
 
       jest.spyOn(service, 'create').mockResolvedValue(createdAction);
 
       const requestBody = {
-        issued_timestamp: createdAction.issued_timestamp.toISOString(),
+        action_id: createdAction.action_id,
+        timestamp: createdAction.timestamp,
         action_type: createdAction.action_type,
+        status: createdAction.status,
         metric: createdAction.metric,
         message: createdAction.message,
         level_needed: createdAction.level_needed,
         current_snapshot: createdAction.current_snapshot,
       };
 
-      expect(await controller.createAction(requestBody)).toBe(createdAction);
+      expect(await controller.create(requestBody)).toBe(createdAction);
       expect(service.create).toHaveBeenCalledWith(requestBody);
     });
   });
 
   describe('resolveAction', () => {
     it('should update the action with resolved status and return the updated action', async () => {
-      const actionId = new ObjectId();
-      const resolvedTimestamp = new Date();
-      const message = 'Action resolved';
-      const currentSnapshot = {
-        _id: new ObjectId(),
+
+      const action_id = uuidv4();
+      const createdAction: Action = {
+        action_id: action_id,
         timestamp: new Date(),
-        moisture: 0.7,
-        light: 0.8,
-        temperature: 25,
+        action_type: ActionType.TAKEN,
+        status: ActionStatus.UNRESOLVED,
+        metric: 'moisture',
+        message: 'Watering plant',
+        level_needed: 0.5,
+        current_snapshot: {
+          user_id: uuidv4(),
+          plant_id: uuidv4(),
+          timestamp: new Date(),
+          health_properties: new Map<string, HealthProperty>([
+              ['moisture', {
+                  level: 0.3,
+                  unit: 'deg C',
+                  interpretation: Interpretation.CRITICAL,
+              }],
+              ['light', {
+                level: 3,
+                unit: 'lumens',
+                interpretation: Interpretation.OKAY,
+              }],
+              ['temperature', {
+                level: 20,
+                unit: 'deg C',
+                interpretation: Interpretation.OKAY,
+              }],
+            ])
+        }
       };
 
-      const updatedAction: Action = {
-        _id: actionId,
-        issued_timestamp: new Date(),
-        action_type: 'TAKEN',
-        status: 'RESOLVED',
-        metric: 'water',
-        message,
-        level_needed: 0.5,
-        current_snapshot,
+      const updatedAction: ResolveActionDto = {
+        action_id: action_id,
+        timestamp: new Date(),
+        message: 'Resolving moisture',
+        current_snapshot: {
+          user_id: uuidv4(),
+          plant_id: uuidv4(),
+          timestamp: new Date(),
+          health_properties: new Map<string, HealthProperty>([
+            ['moisture', {
+                level: 0.6,
+                unit: 'deg C',
+                interpretation: Interpretation.CRITICAL,
+            }],
+            ['light', {
+              level: 3,
+              unit: 'lumens',
+              interpretation: Interpretation.OKAY,
+            }],
+            ['temperature', {
+              level: 20,
+              unit: 'deg C',
+              interpretation: Interpretation.OKAY,
+            }],
+          ])
+        }
       };
 
       jest.spyOn(service, 'resolve').mockResolvedValue(updatedAction);
 
       const requestBody = {
-        action_id: actionId.toHexString(),
-        resolved_timestamp: resolvedTimestamp.toISOString(),
-        message,
-        current_snapshot,
+        action_id: updatedAction.action_id,
+        timestamp: updatedAction.timestamp,
+        message: updatedAction.message,
+        current_snapshot: updatedAction.current_snapshot,
       };
 
-      expect(await controller.resolveAction(requestBody)).toBe(updatedAction);
+      expect(await controller.update(requestBody)).toBe(updatedAction);
       expect(service.resolve).toHaveBeenCalledWith(requestBody);
     });
   });

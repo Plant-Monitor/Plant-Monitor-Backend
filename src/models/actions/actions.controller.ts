@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Put } from '@nestjs/common';
 import { ActionsService } from './actions.service';
 import { ResolveActionDto } from './dto/resolveAction.dto';
-import { Action } from './interaces/action.interface';
+import { Action } from './interfaces/action.interface';
 
 @Controller('actions')
 export class ActionsController {

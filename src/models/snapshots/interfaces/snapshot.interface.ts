@@ -11,7 +11,7 @@ export interface HealthProperty {
   interpretation: Interpretation;
 }
 
-enum Interpretation {
+export enum Interpretation {
   GOOD,
   OKAY,
   CRITICAL,

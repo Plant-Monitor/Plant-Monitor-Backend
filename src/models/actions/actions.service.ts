@@ -4,9 +4,9 @@ import Expo from 'expo-server-sdk';
 import { Model } from 'mongoose';
 import { PushTokenRegistrationDocObject, PushTokenRegistrationDocument } from '../push/schemas/pushTokenRegistration.schema';
 import { ResolveActionDto } from './dto/resolveAction.dto';
-import { Action, ActionStatus } from './interaces/action.interface';
+import { Action, ActionStatus } from './interfaces/action.interface';
 import { ActionDocObject, ActionDocument } from './schemas/actions.schema';
-import { ActionType } from './interaces/action.interface';
+import { ActionType } from './interfaces/action.interface';
 import { Snapshot } from '../snapshots/interfaces/snapshot.interface';
 import { getPushToken, sendNotification } from 'src/utils/pushNotifications.utils';
 

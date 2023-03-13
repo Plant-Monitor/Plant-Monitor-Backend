@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 import { Snapshot } from "src/models/snapshots/interfaces/snapshot.interface";
-import { Action, ActionStatus, ActionType } from "../interaces/action.interface";
+import { SnapshotDocObject } from "src/models/snapshots/schemas/snapshots.schema";
+import { Action, ActionStatus, ActionType } from "../interfaces/action.interface";
 
 export type ActionDocument = HydratedDocument <ActionDocObject>;
 
@@ -20,8 +21,8 @@ export class ActionDocObject implements Action {
     @Prop()
     message: string;
     @Prop()
-    level: number;
-    @Prop()
+    level_needed: number;
+    @Prop({type: SnapshotDocObject})
     current_snapshot: Snapshot;
 }
 
