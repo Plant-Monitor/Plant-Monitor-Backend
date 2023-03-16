@@ -13,7 +13,7 @@ import { SnapshotsModule } from './models/snapshots/snapshots.module';
   imports: [
     ConfigModule.forRoot({
       expandVariables: true,
-      load: [configuration, mongoConfig]
+      load: [configuration, mongoConfig],
     }),
     SnapshotsModule,
     ActionsModule,
@@ -22,7 +22,7 @@ import { SnapshotsModule } from './models/snapshots/snapshots.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('mongodb.uri'),
-        dbName: configService.get<string>('mongodb.user_db')
+        dbName: configService.get<string>('mongodb.user_db'),
       }),
       inject: [ConfigService],
     }),

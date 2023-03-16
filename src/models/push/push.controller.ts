@@ -4,10 +4,10 @@ import { PushService } from './push.service';
 
 @Controller('push')
 export class PushController {
-    constructor(private pushService: PushService) {}
+  constructor(private pushService: PushService) {}
 
-    @Post('register')
-    async register(@Body() entry: PushTokenRegistrationEntry) {
-        this.pushService.register(entry);
-    }
+  @Post('register')
+  async register(@Body() entry: PushTokenRegistrationEntry) {
+    this.pushService.register(entry);
+  }
 }

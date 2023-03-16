@@ -1,8 +1,7 @@
-import { Snapshot } from "src/models/snapshots/interfaces/snapshot.interface";
+import { Snapshot } from 'src/models/snapshots/interfaces/snapshot.interface';
 
 export class ResolveActionDto {
-    action_id: string;
-    timestamp: Date;
-    message: string;
-    current_snapshot: Snapshot;
+  action_id: string;
+  message: string;
+  current_snapshot: Snapshot;
 }

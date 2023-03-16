@@ -1,4 +1,4 @@
 export interface PushTokenRegistrationEntry {
-    user_id: string;
-    token: string;
+  user_id: string;
+  token: string;
 }
