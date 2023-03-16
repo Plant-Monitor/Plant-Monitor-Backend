@@ -83,6 +83,8 @@ export class ActionsService {
       },
     );
 
+    await this.snapshotsService.create(resolveActionDto.current_snapshot);
+
     const token = await getPushToken(
       actionDoc.current_snapshot.user_id,
       this.tokenRegistrationModel,
