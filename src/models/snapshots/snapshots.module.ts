@@ -12,5 +12,6 @@ import { SnapshotsService } from './snapshots.service';
   ],
   controllers: [SnapshotsController],
   providers: [SnapshotsService],
+  exports: [SnapshotsService],
 })
 export class SnapshotsModule {}
