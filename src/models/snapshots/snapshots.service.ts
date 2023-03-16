@@ -10,19 +10,19 @@ import {
 @Injectable()
 export class SnapshotsService {
   constructor(
-    @InjectModel(
-        SnapshotDocObject.name,
-        process.env.NODE_ENV
-    )
+    @InjectModel(SnapshotDocObject.name, process.env.NODE_ENV)
     private readonly snapshotModel: Model<SnapshotDocument>,
   ) {}
 
-  async findOne(id: string): Promise<SnapshotDocObject | null>{
-    return this.snapshotModel.findOne({
-      user_id: id,
-    }).sort({
+  async findOne(id: string): Promise<SnapshotDocObject | null> {
+    return this.snapshotModel
+      .findOne({
+        user_id: id,
+      })
+      .sort({
         created_at: -1,
-    }).exec();
+      })
+      .exec();
   }
 
   async create(

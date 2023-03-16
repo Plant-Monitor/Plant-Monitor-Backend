@@ -1,0 +1,24 @@
+openapi: '3.0.2'
+info:
+  title: push
+  description: 'Allow apps to register for push notifications'
+  version: '1.0'
+
+paths:
+  /push/register:
+    post:
+      description: Register push token
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id: 
+                  $ref: 'snapshots.yml#/components/schemas/Id'
+                token:
+                  description: The generated expo push token
+                  type: string
+      responses:
+        '200':
+          description: OK
