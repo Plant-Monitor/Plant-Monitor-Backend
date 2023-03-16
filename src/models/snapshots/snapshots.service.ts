@@ -28,7 +28,6 @@ export class SnapshotsService {
   async create(
     createSnapshotDto: CreateSnapshotDto,
   ): Promise<SnapshotDocObject> {
-    const createdSnapshot = await this.snapshotModel.create(createSnapshotDto);
-    return createdSnapshot;
+    return await this.snapshotModel.create(createSnapshotDto);
   }
 }

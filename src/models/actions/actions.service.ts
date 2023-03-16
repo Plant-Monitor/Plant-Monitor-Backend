@@ -15,6 +15,7 @@ import {
   getPushToken,
   sendNotification,
 } from 'src/utils/pushNotifications.utils';
+import { SnapshotsService } from '../snapshots/snapshots.service';
 
 @Injectable()
 export class ActionsService {
@@ -26,12 +27,17 @@ export class ActionsService {
 
     @InjectModel(PushTokenRegistrationDocObject.name, process.env.NODE_ENV)
     private readonly tokenRegistrationModel: Model<PushTokenRegistrationDocument>,
+
+    private readonly snapshotsService: SnapshotsService,
   ) {
     this.expo = new Expo();
   }
 
   async create(action: Action): Promise<ActionDocObject> {
     const createdAction = await this.actionModel.create(action);
+
+    // Store snapshot
+    await this.snapshotsService.create(action.current_snapshot);
 
     // Create and send push notification
     const token = await getPushToken(
@@ -77,6 +83,8 @@ export class ActionsService {
       },
     );
 
+    await this.snapshotsService.create(resolveActionDto.current_snapshot);
+
     const token = await getPushToken(
       actionDoc.current_snapshot.user_id,
       this.tokenRegistrationModel,
@@ -97,7 +105,7 @@ export class ActionsService {
     resolvedMetric: string,
     snapshot: Snapshot,
   ) {
-    sendNotification(
+    await sendNotification(
       this.expo,
       token,
       `${resolvedMetric} has been fully regulated`,

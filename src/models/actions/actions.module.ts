@@ -3,7 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ActionDocObject, ActionSchema } from './schemas/actions.schema';
 import { ActionsController } from './actions.controller';
 import { ActionsService } from './actions.service';
-import { PushModule } from '../push/push.module';
 import {
   PushTokenRegistrationDocObject,
   PushTokenRegistrationSchema,
@@ -12,6 +11,7 @@ import {
   SnapshotDocObject,
   SnapshotSchema,
 } from '../snapshots/schemas/snapshots.schema';
+import { SnapshotsModule } from '../snapshots/snapshots.module';
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import {
         schema: SnapshotSchema,
       },
     ]),
+    SnapshotsModule,
   ],
   controllers: [ActionsController],
   providers: [ActionsService],
