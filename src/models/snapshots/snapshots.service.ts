@@ -20,7 +20,7 @@ export class SnapshotsService {
         user_id: id,
       })
       .sort({
-        created_at: -1,
+        timestamp: -1,
       })
       .exec();
   }

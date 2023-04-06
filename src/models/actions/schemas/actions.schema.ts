@@ -22,6 +22,7 @@ export class ActionDocObject implements Action {
   status: ActionStatus;
   @Prop({ required: true })
   metric: string;
+  // todo: Make this unrequired
   @Prop({ required: true })
   message: string;
   @Prop({ required: true })
