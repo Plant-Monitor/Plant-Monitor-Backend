@@ -62,6 +62,7 @@ export class ActionsService {
   }
 
   generateNewActionNotifBody(action: Action): string {
+    // todo: modify this so that it modifies the action itself
     switch (action.action_type) {
       case ActionType.TAKEN:
         return `Your plant monitor is now regulating ${action.metric}`;
