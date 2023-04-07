@@ -15,7 +15,13 @@ export const sendNotification = async (
   };
 
   const chunks = expo.chunkPushNotifications([message]);
-  await expo.sendPushNotificationsAsync(chunks[0]);
+  for (const chunk of chunks) {
+    try {
+      await expo.sendPushNotificationsAsync(chunk);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 };
 
 export const getPushToken = async (
