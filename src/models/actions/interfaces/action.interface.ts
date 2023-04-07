@@ -12,8 +12,8 @@ export interface Action {
 }
 
 export enum ActionType {
-  TAKEN,
-  NEEDED,
+  TAKEN = 'TAKEN',
+  NEEDED = 'NEEDED',
 }
 export enum ActionStatus {
   RESOLVED,
