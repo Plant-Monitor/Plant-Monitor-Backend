@@ -55,6 +55,7 @@ export class ActionsService {
   async sendNewActionNotification(token: string, action: Action) {
     await sendNotification(
       this.expo,
+      action.metric.toUpperCase(),
       token,
       this.generateNewActionNotifBody(action),
       action,
@@ -62,13 +63,13 @@ export class ActionsService {
   }
 
   generateNewActionNotifBody(action: Action): string {
-    // todo: modify this so that it modifies the action itself
     switch (action.action_type) {
       case ActionType.TAKEN:
         return `Your plant monitor is now regulating ${action.metric}`;
       case ActionType.NEEDED:
         return `Your plant monitor needs you to regulate ${action.metric}`;
     }
+    return 'Sample';
   }
 
   async resolve(resolveActionDto: ResolveActionDto) {
@@ -108,6 +109,7 @@ export class ActionsService {
   ) {
     await sendNotification(
       this.expo,
+      resolvedMetric.toUpperCase(),
       token,
       `${resolvedMetric} has been fully regulated`,
       snapshot,
