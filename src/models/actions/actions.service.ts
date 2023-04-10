@@ -96,7 +96,7 @@ export class ActionsService {
       await this.sendActionUpdateNotification(
         token,
         actionDoc.metric,
-        resolveActionDto.current_snapshot,
+        resolveActionDto,
       );
     }
     return;
@@ -105,14 +105,14 @@ export class ActionsService {
   async sendActionUpdateNotification(
     token: string,
     resolvedMetric: string,
-    snapshot: Snapshot,
+    resolvedAction: ResolveActionDto,
   ) {
     await sendNotification(
       this.expo,
       resolvedMetric.toUpperCase(),
       token,
       `${resolvedMetric} has been fully regulated`,
-      snapshot,
+      resolvedAction,
     );
   }
 }
