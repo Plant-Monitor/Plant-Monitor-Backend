@@ -12,7 +12,7 @@ export interface HealthProperty {
 }
 
 export enum Interpretation {
-  GOOD,
-  OKAY,
-  CRITICAL,
+  GOOD = 'GOOD',
+  OKAY = 'OKAY',
+  CRITICAL = 'CRITICAL',
 }

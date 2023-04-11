@@ -16,6 +16,6 @@ export enum ActionType {
   NEEDED = 'NEEDED',
 }
 export enum ActionStatus {
-  RESOLVED,
-  UNRESOLVED,
+  RESOLVED = 'RESOLVED',
+  UNRESOLVED = 'UNRESOLVED',
 }

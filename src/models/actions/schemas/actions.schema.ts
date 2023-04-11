@@ -23,7 +23,7 @@ export class ActionDocObject implements Action {
   @Prop({ required: true })
   metric: string;
   // todo: Make this unrequired
-  @Prop({ required: true })
+  @Prop({ required: false })
   message: string;
   @Prop({ required: true })
   level_needed: number;
